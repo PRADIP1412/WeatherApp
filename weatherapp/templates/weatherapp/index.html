@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="heading">Weather App</h1>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Enter City" value="{{ request.POST.city|default:'' }}">
+            <button type="submit" class="btn">Search</button>
+        </form>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="weather">
+            <div class="left">
+                <h2 class="temp">{{ temp }}&#176; C</h2>
+                <h2 class="city">{{ city }}</h2>
+            </div>
+            <div class="right">
+                <div class="icon">
+                    <p><img src="http://openweathermap.org/img/w/{{ icon }}.png" width="120px"></p>
+                </div>
+                <div class="condition">
+                    <p>{{ description }}</p>
+                    <p>{{ day|date:"M d, Y" }}</p> {# Format the date for better display #}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const body = document.querySelector('body');
+            const imageUrl = "{{ image_url }}"; // Get the image_url from Django context
+
+            if (imageUrl) {
+                const img = new Image();
+                img.onload = function() {
+                    body.style.backgroundImage = `url('${imageUrl}')`;
+                    body.style.backgroundSize = 'cover';
+                    body.style.backgroundPosition = 'center';
+                    body.style.backgroundRepeat = 'no-repeat';
+                    body.style.minHeight = '100vh'; // Ensure it covers viewport height
+                };
+                img.onerror = function() {
+                    console.error("Failed to load background image:", imageUrl);
+                    // Fallback to the default image if dynamic load fails
+                    body.style.backgroundImage = `url('https://images.pexels.com/photos/3008509/pexels-photo-3008509.jpeg?auto=compress&cs=tinysrgb&w=1600')`;
+                    body.style.backgroundSize = 'cover';
+                    body.style.backgroundPosition = 'center';
+                    body.style.backgroundRepeat = 'no-repeat';
+                    body.style.minHeight = '100vh';
+                };
+                img.src = imageUrl;
+            } else {
+                // If no image_url is provided, use the default one
+                body.style.backgroundImage = `url('https://images.pexels.com/photos/3008509/pexels-photo-3008509.jpeg?auto=compress&cs=tinysrgb&w=1600')`;
+                body.style.backgroundSize = 'cover';
+                body.style.backgroundPosition = 'center';
+                body.style.backgroundRepeat = 'no-repeat';
+                body.style.minHeight = '100vh';
+            }
+        });
+
+        // Display messages from Django
+        {% if messages %}
+            window.onload = function() {
+                // Collect all messages and display them in one alert or a more sophisticated way
+                let allMessages = '';
+                {% for message in messages %}
+                    allMessages += "{{ message }}\n";
+                {% endfor %}
+                if (allMessages.trim() !== '') {
+                    alert(allMessages.trim());
+                }
+            }
+        {% endif %}
+    </script>
+</body>
+</html>

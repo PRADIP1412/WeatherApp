@@ -1,0 +1,195 @@
+:root {
+    --white: #ffffff;
+    --off-white: #e5e5e5;
+    --transp-white-1: rgba(255, 255, 255, 0.25);
+    --transp-white-2: rgba(255, 255, 255, 0.18);
+    --blue-1: #62b8f5;
+    --blue-2: #4475ef;
+    --shadow: rgba(3, 46, 87, 0.2);
+    --dark-blue-text: rgb(5, 41, 51); /* New variable for common dark blue text */
+    --light-blue-button-border: #04009A; /* New variable for button border */
+    --light-background-color: #F0EBCC; /* New variable for light background */
+}
+
+/* body{
+    background: linear-gradient(270deg, var(--blue-1), var(--blue-2));
+} */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background-image: url('https://images.pexels.com/photos/3008509/pexels-photo-3008509.jpeg?auto=compress&cs=tinysrgb&w=1600');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; /* Center the background image */
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    margin: 0;
+    /* Removed width: 1920px; to allow responsiveness */
+}
+
+h1 {
+    text-align: center;
+    color: var(--dark-blue-text);
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 72% 25%;
+    grid-gap: 3%;
+}
+
+.container {
+    width: 50%;
+    background: var(--transp-white-2);
+    backdrop-filter: blur(10px);
+    margin: 5rem auto;
+    padding: 2rem;
+    border: 2px solid var(--transp-white-2);
+    border-radius: 10px;
+    color: var(--dark-blue-text);
+    /* Removed fixed height to allow content to dictate height */
+    min-height: 600px; /* Use min-height for flexibility */
+    display: flex; /* Use flexbox for inner layout */
+    flex-direction: column;
+}
+
+input {
+    background-color: transparent;
+    padding: .5rem;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid var(--white); /* Use white for input border for consistency */
+    color: var(--dark-blue-text); /* Ensure input text is visible */
+}
+
+input::placeholder { /* Corrected placeholder selector */
+    color: var(--dark-blue-text); /* Style placeholder text */
+    opacity: 0.7; /* Make placeholder slightly transparent */
+}
+
+.btn {
+    padding: .5rem 1rem;
+    border: 2px solid var(--light-blue-button-border);
+    cursor: pointer;
+    transition: .3s;
+    color: var(--blue-2);
+    background-color: transparent;
+    border-radius: 10px; /* Consistent border-radius with other elements */
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    background-color: var(--dark-blue-text);
+    color: var(--white);
+}
+
+.weather {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Removed fixed height to allow content to dictate height */
+    min-height: 200px; /* Use min-height for flexibility */
+    flex-grow: 1; /* Allow weather section to grow and take available space */
+}
+
+.left {
+    width: 100%;
+    padding: .3rem;
+    padding-bottom: 0;
+    border-radius: 10px 0 0 10px;
+    /* Removed fixed height, will be managed by flex container */
+    line-height: 3;
+    text-transform: uppercase;
+    background: var(--transp-white-2);
+    backdrop-filter: blur(10px);
+    display: flex; /* Use flexbox for internal alignment */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.temp {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.city {
+    margin-top: -22px;
+    text-align: center;
+}
+
+.right {
+    border-radius: 10px;
+    text-align: center;
+    /* Removed fixed height, will be managed by flex container */
+    width: 100%;
+    border-radius: 0 10px 10px 0;
+    line-height: 2.5;
+    background: var(--transp-white-2);
+    backdrop-filter: blur(10px);
+    display: flex; /* Use flexbox for internal alignment */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.icon {
+    height: 85px;
+    padding: .5rem;
+    border-radius: 0 10px 0 0;
+    color: var(--light-blue-button-border);
+}
+
+.condition {
+    /* Removed fixed height, will be managed by flex container */
+    border-radius: 0 0 10px;
+    color: var(--dark-blue-text);
+    font-size: 20px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .container {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .weather {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .container {
+        text-align: center;
+        width: 90%;
+        /* Adjusted min-height for smaller screens */
+        min-height: auto;
+        padding-bottom: 2rem; /* Add some bottom padding for smaller height */
+    }
+
+    .right {
+        margin-top: .5rem;
+        margin-left: 0;
+        border-radius: 10px; /* Adjust border-radius for full element on small screens */
+    }
+
+    .left {
+        border-radius: 10px; /* Adjust border-radius for full element on small screens */
+    }
+
+    form {
+        grid-template-columns: 100%;
+    }
+}
